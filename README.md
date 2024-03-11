@@ -691,3 +691,248 @@ GET /api/users/12346
 ```
 
 This detailed JSON data flow showcases the typical interactions with a User Service in a ride-sharing application, covering registration, login, profile updates, and fetching user details. Each step involves sending specific JSON structured data to the service and receiving a response, also in JSON format, that confirms the action taken or returns the requested data.
+
+Below is a markdown document template for a User Service API in a ride-sharing application. This document outlines the API endpoints for user registration, login, profile updates, and retrieving user details. You can customize this template according to your specific application requirements.
+
+# User Service API Documentation
+
+## Overview
+
+The User Service API manages user registration, authentication, profile updates, and retrieval of user information. It is designed to ensure secure access and modification of user data.
+
+## Base URL
+
+```
+https://api.example.com
+```
+
+## Endpoints
+
+### Register a New User
+
+- **POST** `/api/users/register`
+
+  Allows new users to register on the platform.
+
+  #### Request Body
+
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "YourSecurePassword",
+    "firstName": "John",
+    "lastName": "Doe",
+    "phoneNumber": "+1234567890"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "userID": 1,
+    "message": "User registration successful."
+  }
+  ```
+
+### User Login
+
+- **POST** `/api/users/login`
+
+  Authenticates a user and returns a token for accessing protected routes.
+
+  #### Request Body
+
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "YourSecurePassword"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "expiresIn": "24h",
+    "message": "Login successful."
+  }
+  ```
+
+### Update User Profile
+
+- **PUT** `/api/users/{userID}/profile`
+
+  Updates the profile information of an existing user. Requires authentication.
+
+  #### Request Headers
+
+  ```
+  Authorization: Bearer <YourAccessToken>
+  ```
+
+  #### Request Body
+
+  ```json
+  {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "phoneNumber": "+1234567890"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "message": "Profile updated successfully."
+  }
+  ```
+
+### Get User Details
+
+- **GET** `/api/users/{userID}`
+
+  Retrieves the details of an existing user. Requires authentication.
+
+  #### Request Headers
+
+  ```
+  Authorization: Bearer <YourAccessToken>
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "userID": 1,
+    "email": "user@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "phoneNumber": "+1234567890",
+    "userType": "rider"
+  }
+  ```
+
+Pricing & Payments Service API in a ride-sharing application. This document outlines the API endpoints for managing pricing rules, calculating ride fares, and processing payment transactions. Customize this template according to your specific application requirements.
+
+# Pricing & Payments Service API Documentation
+
+## Overview
+
+The Pricing & Payments Service API is responsible for managing pricing rules, calculating fares for rides, and handling payment transactions. It ensures accurate pricing and secure processing of payments.
+
+## Base URL
+
+```
+https://api.example.com
+```
+
+## Endpoints
+
+### Manage Pricing Rules
+
+#### Create Pricing Rule
+
+- **POST** `/api/pricing/rules`
+
+  Creates a new pricing rule.
+
+  #### Request Body
+
+  ```json
+  {
+    "ruleName": "Standard Rate",
+    "baseFare": 2.00,
+    "perMileRate": 1.50,
+    "perMinuteRate": 0.25
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "pricingRuleID": 1,
+    "message": "Pricing rule created successfully."
+  }
+  ```
+
+#### Update Pricing Rule
+
+- **PUT** `/api/pricing/rules/{pricingRuleID}`
+
+  Updates an existing pricing rule.
+
+  #### Request Body
+
+  ```json
+  {
+    "baseFare": 2.50,
+    "perMileRate": 1.75,
+    "perMinuteRate": 0.30
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "message": "Pricing rule updated successfully."
+  }
+  ```
+
+### Calculate Ride Fare
+
+- **POST** `/api/pricing/calculate`
+
+  Calculates the fare for a given ride based on the pricing rules.
+
+  #### Request Body
+
+  ```json
+  {
+    "pricingRuleID": 1,
+    "miles": 10,
+    "minutes": 15
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "calculatedFare": 25.75
+  }
+  ```
+
+### Process Payment Transaction
+
+#### Create Payment Transaction
+
+- **POST** `/api/payments/transactions`
+
+  Processes a payment transaction for a ride.
+
+  #### Request Body
+
+  ```json
+  {
+    "rideID": 123,
+    "amount": 25.75,
+    "paymentMethod": "credit_card"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "transactionID": 456,
+    "transactionStatus": "completed",
+    "message": "Payment processed successfully."
+  }
+  ```
+
+
