@@ -163,3 +163,76 @@ For managing user sessions and permissions, you might consider tables for storin
 - **Indexes**: Consider adding indexes on columns that will be frequently searched or used in joins, such as `Email` in the `Users` table, to improve performance.
 
 This schema provides a foundational structure for a User Service in a car service application, focusing on the essential aspects of user management, driver information, and addresses. Depending on the application's specific requirements, additional details and tables can be added to support more features.
+A Ride Matching Service is a core component of a car service application like Uber, connecting riders with drivers. This service requires a well-designed database schema to efficiently handle ride requests, driver availability, and the matching process. Below is a simplified schema that includes tables for managing ride requests, tracking driver status, and recording ride matches.
+
+### 1. Ride Requests Table
+
+This table stores information about ride requests made by riders.
+
+```sql
+CREATE TABLE RideRequests (
+    RequestID INT AUTO_INCREMENT PRIMARY KEY,
+    RiderID INT NOT NULL,
+    PickupLocation VARCHAR(255) NOT NULL,
+    DropoffLocation VARCHAR(255) NOT NULL,
+    RequestTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Status ENUM('pending', 'matched', 'cancelled', 'completed') NOT NULL,
+    FOREIGN KEY (RiderID) REFERENCES Users(UserID)
+);
+```
+
+### 2. Drivers Table
+
+Assuming the `Users` table already exists and includes drivers, this table will track the current status of drivers (whether they are available to accept rides, are currently on a trip, etc.).
+
+```sql
+CREATE TABLE DriverStatus (
+    DriverID INT PRIMARY KEY,
+    CurrentLocation VARCHAR(255) NOT NULL,
+    Status ENUM('available', 'on_trip', 'offline') NOT NULL,
+    LastUpdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (DriverID) REFERENCES Users(UserID)
+);
+```
+
+### 3. Ride Matches Table
+
+This table records the matches made between ride requests and drivers, including the status of the ride.
+
+```sql
+CREATE TABLE RideMatches (
+    MatchID INT AUTO_INCREMENT PRIMARY KEY,
+    RequestID INT NOT NULL,
+    DriverID INT NOT NULL,
+    MatchTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Status ENUM('accepted', 'driver_en_route', 'in_progress', 'completed', 'cancelled') NOT NULL,
+    FOREIGN KEY (RequestID) REFERENCES RideRequests(RequestID),
+    FOREIGN KEY (DriverID) REFERENCES DriverStatus(DriverID)
+);
+```
+
+### 4. Ride Details Table (Optional)
+
+For more detailed tracking of each ride, including timestamps for each stage of the ride.
+
+```sql
+CREATE TABLE RideDetails (
+    DetailID INT AUTO_INCREMENT PRIMARY KEY,
+    MatchID INT NOT NULL,
+    StartTime TIMESTAMP,
+    PickupTime TIMESTAMP,
+    DropoffTime TIMESTAMP,
+    EndTime TIMESTAMP,
+    Fare DECIMAL(10, 2),
+    FOREIGN KEY (MatchID) REFERENCES RideMatches(MatchID)
+);
+```
+
+### Additional Considerations
+
+- **Geolocation Data**: The `CurrentLocation` in `DriverStatus` and locations in `RideRequests` are simplified as VARCHAR for this example. In a real-world application, you might use spatial data types (e.g., `POINT` in MySQL) and spatial indexes to efficiently query for nearby drivers.
+- **Indexes**: To improve performance, especially for queries to find nearby drivers or active ride requests, consider adding indexes on `Status` columns and potentially spatial indexes on location columns, depending on your database's support for geospatial data.
+- **Normalization**: This schema is designed to minimize redundancy, but depending on your application's needs, you might adjust the normalization level. For example, location data could be further normalized into a separate table if you find it necessary to store more detailed location information.
+- **Scalability**: As your application grows, you may need to consider scalability solutions, such as database sharding, to distribute the load across multiple databases, especially for the `DriverStatus` and `RideRequests` tables, which could grow rapidly and be queried frequently.
+
+This schema provides a foundational structure for a Ride Matching Service, focusing on efficiently matching ride requests with available drivers and tracking the status of those rides. Depending on specific requirements and features of your application, you might need to extend or modify this schema.
