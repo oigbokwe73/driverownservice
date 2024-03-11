@@ -472,6 +472,106 @@ The Ride Matching Service connects riders with drivers, facilitating quick and e
 
 For more detailed information on request parameters, response objects, and error codes, please refer to the full API documentation.
 
----
+Below are sample JSON data snippets for each of the specified services in a ride-sharing application context. These examples illustrate how data might be structured when interacting with APIs or storing/transmitting data for each service.
 
-This Markdown template provides a basic structure for documenting a Ride Matching Service. You can expand each section with more details specific to your service, including authentication methods, detailed request/response models, and any additional endpoints or features not covered here.
+### User Service
+
+```json
+{
+  "userID": 12345,
+  "email": "john.doe@example.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "phoneNumber": "+1234567890",
+  "userType": "rider",
+  "createdAt": "2024-03-01T12:00:00Z"
+}
+```
+
+### Ride Matching Service
+
+```json
+{
+  "requestID": 54321,
+  "riderID": 12345,
+  "pickupLocation": "100 Main St, Metropolis",
+  "dropoffLocation": "200 Elm St, Metropolis",
+  "requestTime": "2024-03-01T12:05:00Z",
+  "status": "pending"
+}
+```
+
+### Pricing & Payments Service
+
+#### Pricing Rule
+
+```json
+{
+  "pricingRuleID": 1,
+  "ruleName": "Standard Rate",
+  "baseFare": 2.00,
+  "perMileRate": 1.50,
+  "perMinuteRate": 0.25,
+  "isActive": true
+}
+```
+
+#### Payment Transaction
+
+```json
+{
+  "transactionID": 67890,
+  "rideFareID": 54321,
+  "paymentMethod": "credit_card",
+  "amount": 15.75,
+  "transactionStatus": "completed",
+  "transactionDate": "2024-03-01T12:35:00Z"
+}
+```
+
+### Notifications Service
+
+```json
+{
+  "notificationID": 111,
+  "userID": 12345,
+  "templateID": 1,
+  "notificationType": "SMS",
+  "notificationStatus": "sent",
+  "sentAt": "2024-03-01T12:10:00Z",
+  "message": "Your ride request has been received and is being processed."
+}
+```
+
+### Trip Management Service
+
+```json
+{
+  "tripID": 54321,
+  "riderID": 12345,
+  "driverID": 67890,
+  "pickupLocation": "100 Main St, Metropolis",
+  "dropoffLocation": "200 Elm St, Metropolis",
+  "requestTime": "2024-03-01T12:05:00Z",
+  "startTime": "2024-03-01T12:10:00Z",
+  "endTime": "2024-03-01T12:30:00Z",
+  "status": "completed",
+  "fare": 15.75
+}
+```
+
+### Ratings & Reviews Service
+
+```json
+{
+  "ratingID": 222,
+  "tripID": 54321,
+  "ratedByUserID": 12345,
+  "ratedUserID": 67890,
+  "rating": 5,
+  "review": "Great experience, very polite driver and clean car.",
+  "ratingDate": "2024-03-01T12:40:00Z"
+}
+```
+
+These JSON snippets provide a basic structure for data representation in each service of a ride-sharing application. They can be adapted or extended based on specific application requirements, including adding more fields, adjusting data types, or incorporating additional entities related to each service.
