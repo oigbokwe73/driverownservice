@@ -91,3 +91,75 @@ CREATE TABLE Ratings (
 ```
 
 This schema is a starting point and can be customized or expanded based on the application's specific needs, such as adding location tracking for rides, handling surge pricing, or incorporating promotional discounts. Additionally, consider implementing indexes on frequently searched columns to improve query performance, and always ensure that sensitive information (like passwords) is securely stored using appropriate hashing algorithms.
+
+
+Creating a database schema for a User Service, which is a fundamental part of applications like a car service platform (similar to Uber), involves designing tables that will store information about the users. In this context, "users" can include both riders and drivers, and potentially administrators or other roles depending on the application's requirements. Below is a simplified schema focused on riders and drivers, which can be extended or modified based on specific needs.
+
+### Users Table
+
+This table stores basic information about all users, including both riders and drivers. You might decide to keep them in the same table and differentiate them by role, or you might have separate tables if their data requirements are significantly different.
+
+```sql
+CREATE TABLE Users (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(255) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    PhoneNumber VARCHAR(20) UNIQUE,
+    UserType ENUM('rider', 'driver', 'admin') NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+### Driver Details Table
+
+For drivers, you might need additional information related to their driving and vehicle information. This assumes a one-to-one relationship between a driver and their primary vehicle for simplicity. If drivers can have multiple vehicles, you'd need a separate `Vehicles` table and a linking table between `Drivers` and `Vehicles`.
+
+```sql
+CREATE TABLE DriverDetails (
+    DriverID INT PRIMARY KEY,
+    LicenseNumber VARCHAR(50) NOT NULL UNIQUE,
+    LicenseExpiry DATE NOT NULL,
+    InsuranceNumber VARCHAR(50) NOT NULL,
+    VehicleMake VARCHAR(50),
+    VehicleModel VARCHAR(50),
+    VehicleYear YEAR,
+    VehicleColor VARCHAR(30),
+    VehicleLicensePlate VARCHAR(20) NOT NULL UNIQUE,
+    FOREIGN KEY (DriverID) REFERENCES Users(UserID)
+);
+```
+
+### Address Table
+
+Users (especially drivers) might need to have addresses on file, for billing, legal, or emergency contact purposes.
+
+```sql
+CREATE TABLE Addresses (
+    AddressID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    StreetAddress1 VARCHAR(255),
+    StreetAddress2 VARCHAR(255),
+    City VARCHAR(100),
+    State VARCHAR(100),
+    PostalCode VARCHAR(20),
+    Country VARCHAR(50),
+    AddressType ENUM('home', 'billing', 'other') NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+```
+
+### Authentication and Authorization
+
+For managing user sessions and permissions, you might consider tables for storing session tokens, refresh tokens, and role-based access controls (RBAC), depending on the complexity of your application's security requirements.
+
+### Notes
+
+- **Normalization**: This schema is normalized to avoid redundancy. For example, addresses are stored in a separate table to accommodate users having multiple addresses.
+- **Security**: Passwords should never be stored in plain text. The `PasswordHash` column suggests that passwords should be securely hashed before storage.
+- **Extensibility**: This schema can be extended with additional tables or columns as needed, for example, to add user preferences, saved payment methods, or a table linking users to their past trips.
+- **Indexes**: Consider adding indexes on columns that will be frequently searched or used in joins, such as `Email` in the `Users` table, to improve performance.
+
+This schema provides a foundational structure for a User Service in a car service application, focusing on the essential aspects of user management, driver information, and addresses. Depending on the application's specific requirements, additional details and tables can be added to support more features.
