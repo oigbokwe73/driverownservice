@@ -1035,3 +1035,225 @@ https://api.example.com
   ]
   ```
 
+Below is a markdown document template for a Trip Management Service API in a ride-sharing application. This document outlines the API endpoints for creating trips, updating trip statuses, and retrieving trip details. Customize this template according to your specific application requirements.
+
+# Trip Management Service API Documentation
+
+## Overview
+
+The Trip Management Service API is responsible for handling the lifecycle of trips within the ride-sharing platform. It allows for the creation of trip requests, updating trip statuses, and querying trip details to ensure a smooth experience for both riders and drivers.
+
+## Base URL
+
+```
+https://api.example.com
+```
+
+## Endpoints
+
+### Create Trip
+
+- **POST** `/api/trips`
+
+  Initiates a new trip request by a rider.
+
+  #### Request Body
+
+  ```json
+  {
+    "riderID": 12345,
+    "pickupLocation": "123 Main St, Cityville",
+    "dropoffLocation": "456 Elm St, Cityville",
+    "pickupTime": "2024-03-02T15:00:00Z"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "tripID": 67890,
+    "status": "Requested",
+    "message": "Trip request created successfully."
+  }
+  ```
+
+### Update Trip Status
+
+- **PATCH** `/api/trips/{tripID}/status`
+
+  Updates the status of an existing trip.
+
+  #### Request Body
+
+  ```json
+  {
+    "status": "InProgress"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "tripID": 67890,
+    "status": "InProgress",
+    "message": "Trip status updated successfully."
+  }
+  ```
+
+### Get Trip Details
+
+- **GET** `/api/trips/{tripID}`
+
+  Retrieves the details of a specific trip.
+
+  #### Response
+
+  ```json
+  {
+    "tripID": 67890,
+    "riderID": 12345,
+    "driverID": 54321,
+    "pickupLocation": "123 Main St, Cityville",
+    "dropoffLocation": "456 Elm St, Cityville",
+    "pickupTime": "2024-03-02T15:00:00Z",
+    "startTime": "2024-03-02T15:05:00Z",
+    "endTime": "2024-03-02T15:30:00Z",
+    "status": "Completed",
+    "fare": 12.50
+  }
+  ```
+
+### Cancel Trip
+
+- **PATCH** `/api/trips/{tripID}/cancel`
+
+  Cancels an existing trip. This can be initiated by either the rider or the driver before the trip starts.
+
+  #### Request Body
+
+  ```json
+  {
+    "reason": "Changed plans"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "tripID": 67890,
+    "status": "Cancelled",
+    "message": "Trip cancelled successfully."
+  }
+  ```
+Below is a markdown document template for a Ratings & Reviews Service API in a ride-sharing application. This document outlines the API endpoints for submitting ratings and reviews by riders and drivers, and for querying these ratings and reviews. Customize this template according to your specific application requirements.
+
+# Ratings & Reviews Service API Documentation
+
+## Overview
+
+The Ratings & Reviews Service API facilitates the submission and retrieval of ratings and reviews for trips within the ride-sharing platform. It aims to maintain high service quality and transparency by allowing riders and drivers to rate each other and provide feedback on their experiences.
+
+## Base URL
+
+```
+https://api.example.com
+```
+
+## Endpoints
+
+### Submit a Rating and Review
+
+- **POST** `/api/ratings`
+
+  Allows users (riders or drivers) to submit a rating and optional review for a completed trip.
+
+  #### Request Body
+
+  ```json
+  {
+    "tripID": 67890,
+    "ratedByUserID": 12345,
+    "ratedUserID": 54321,
+    "rating": 5,
+    "review": "Excellent service, very polite and clean car."
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "ratingID": 112233,
+    "message": "Rating and review submitted successfully."
+  }
+  ```
+
+### Get Ratings for a User
+
+- **GET** `/api/ratings/user/{userID}`
+
+  Retrieves all ratings and reviews for a specific user, either as a rider or a driver.
+
+  #### Response
+
+  ```json
+  [
+    {
+      "ratingID": 112233,
+      "tripID": 67890,
+      "ratedByUserID": 12345,
+      "rating": 5,
+      "review": "Excellent service, very polite and clean car.",
+      "createdAt": "2024-03-02T16:00:00Z"
+    },
+    {
+      "ratingID": 112234,
+      "tripID": 67891,
+      "ratedByUserID": 54321,
+      "rating": 4,
+      "review": "Great ride, but arrived a bit late.",
+      "createdAt": "2024-03-03T10:00:00Z"
+    }
+  ]
+  ```
+
+### Update a Rating and Review
+
+- **PUT** `/api/ratings/{ratingID}`
+
+  Allows users to update their previously submitted rating and review.
+
+  #### Request Body
+
+  ```json
+  {
+    "rating": 4,
+    "review": "After consideration, the service was good but not perfect due to slight delay."
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "message": "Rating and review updated successfully."
+  }
+  ```
+
+### Delete a Rating and Review
+
+- **DELETE** `/api/ratings/{ratingID}`
+
+  Allows users to delete their previously submitted rating and review.
+
+  #### Response
+
+  ```json
+  {
+    "message": "Rating and review deleted successfully."
+  }
+  ```
+
