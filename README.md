@@ -935,4 +935,103 @@ https://api.example.com
   }
   ```
 
+Below is a markdown document template for a Notifications Service API in a ride-sharing application. This document outlines the API endpoints for managing notification preferences, sending notifications, and querying notification logs. Customize this template according to your specific application requirements.
+
+# Notifications Service API Documentation
+
+## Overview
+
+The Notifications Service API facilitates the management of user notification preferences, the dispatch of various types of notifications (e.g., email, SMS, push notifications), and the retrieval of notification logs. It ensures users receive timely and relevant information about their ride-sharing activities.
+
+## Base URL
+
+```
+https://api.example.com
+```
+
+## Endpoints
+
+### Notification Preferences
+
+#### Update Notification Preferences
+
+- **PUT** `/api/notifications/preferences/{userID}`
+
+  Updates the notification preferences for a user.
+
+  #### Request Body
+
+  ```json
+  {
+    "receiveEmail": true,
+    "receiveSMS": false,
+    "receivePushNotification": true
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "message": "Notification preferences updated successfully."
+  }
+  ```
+
+### Send Notification
+
+#### Send a Notification
+
+- **POST** `/api/notifications/send`
+
+  Sends a notification to a user based on their preferences.
+
+  #### Request Body
+
+  ```json
+  {
+    "userID": 12345,
+    "notificationType": "email",
+    "subject": "Your ride is on the way!",
+    "message": "Your driver, John Doe, is arriving in a white Toyota Camry. License plate: XYZ123."
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "notificationID": 67890,
+    "status": "sent",
+    "message": "Notification sent successfully."
+  }
+  ```
+
+### Notification Logs
+
+#### Retrieve Notification Logs
+
+- **GET** `/api/notifications/logs/{userID}`
+
+  Retrieves a list of notifications sent to a user.
+
+  #### Response
+
+  ```json
+  [
+    {
+      "notificationID": 67890,
+      "notificationType": "email",
+      "status": "sent",
+      "sentAt": "2024-03-02T10:00:00Z",
+      "subject": "Your ride is on the way!"
+    },
+    {
+      "notificationID": 67891,
+      "notificationType": "push",
+      "status": "sent",
+      "sentAt": "2024-03-02T11:00:00Z",
+      "message": "Your ride has arrived."
+    }
+  ]
+  ```
 
