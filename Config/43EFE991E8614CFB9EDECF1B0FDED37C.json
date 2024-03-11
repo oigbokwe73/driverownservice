@@ -1,0 +1,52 @@
+﻿{
+  "Id": "ServiceBusTrigger",
+  "LineOfBusinessProcessData": [
+    {
+      "Key": "object",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.ProcessData"
+    }
+  ],
+  "Type": "",
+  "DataFlowProcess": [
+		  {
+      "Key": "ReadFileConvertToJsonforSQLDb",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.CSVProcess",
+      "Async": "false",
+      "IsEnable": "true",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "ReadCSVAsPlainText",
+          "Value": "yes"
+        },
+  			{
+          "Key": "messageformat",
+          "Value": "application/json"
+        } 
+      ]
+    },
+   {
+      "Key": "ReceiveMessageFromServieBus",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.ConnectToDBProcess",
+      "Async": "false",
+      "IsEnable": "true",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "ConnectToDatabaseBulkInsertFromCSVToDB",
+          "Value": "yes"
+        },
+        {
+          "Key": "DatabaseTableName",
+          "Value": "College"
+        },
+         {
+          "Key": "ConnectionString",
+          "Value": "DatabaseConnection"
+        },
+       {
+          "Key": "datatable",
+          "Value": "College"
+        }
+      ]
+    }
+  ]
+}

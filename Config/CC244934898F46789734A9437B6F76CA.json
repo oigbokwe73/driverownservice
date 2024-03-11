@@ -1,0 +1,24 @@
+﻿{
+  "Id": "EncodeMessage",
+  "LineOfBusinessProcessData": [
+    {
+      "Key": "object",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.ProcessData"
+    }
+  ],
+  "Type": "",
+  "DataFlowProcess": [
+    {
+      "Key": "EncodeRequestPayload",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.MessageBuilderProcess",
+      "Async": "false",
+      "IsEnable": "true",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "Base64EncodeMessage",
+          "Value": "yes"
+        }
+      ]
+    }
+  ]
+}

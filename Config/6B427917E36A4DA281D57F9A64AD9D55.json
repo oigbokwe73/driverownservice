@@ -1,0 +1,67 @@
+{
+  "Id": "GetReports",
+  "LineOfBusinessProcessData": [
+    {
+      "Key": "object",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.ProcessData"
+    }
+  ],
+  "Type": "",
+  "DataFlowProcess": [
+    {
+      "Key": "DecodeMessageFromRequest",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.MessageBuilderProcess",
+      "Async": "false",
+      "IsEnable": "true",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "DecodeFromJson",
+          "Value": "yes"
+        },
+        {
+          "Key": "PropertyName",
+          "Value": "reportid"
+        }
+      ]
+    },
+		{
+			"Key": "SearchDatabaseForResults",
+			"Type": "Xenhey.BPM.Core.Net8.Processes.ConnectToDBProcess",
+			"Async": "false",
+			"IsEnable": "true",
+			"DataFlowProcessParameters": [
+				{
+					"Key": "connectodatabase",
+					"Value": "Yes"
+				},
+				{
+					"Key": "SearchTerm",
+					"Value": "search"
+				},
+				{
+					"Key": "connectionstring",
+					"Value": "DatabaseConnection"
+				},
+				{
+					"Key": "messageformat",
+					"Value": "application/json"
+				}
+			]
+		},    {
+      "Key": "FormatResultSet",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.MessageBuilderProcess",
+      "Async": "false",
+      "IsEnable": "true",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "BuildArrayFromComplexObject",
+          "Value": "yes"
+        },
+        {
+          "Key": "TableName",
+          "Value": "Table1"
+        }
+      ]
+    }
+  ]
+}

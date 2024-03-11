@@ -1,0 +1,81 @@
+﻿{
+  "Id": "ConnectToDatabaseToSearch",
+  "LineOfBusinessProcessData": [
+    {
+      "Key": "object",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.ProcessData"
+    }
+  ],
+  "Type": "",
+  "DataFlowProcess": [
+    {
+      "Key": "SearchDatabaseForResults",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.ConnectToDBProcess",
+      "Async": "false",
+      "IsEnable": "false",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "ConnectToDatabaseJSONResultSet",
+          "Value": "Yes"
+        },
+        {
+          "Key": "SearchTerm",
+          "Value": "search"
+        },
+        {
+          "Key": "connectionstring",
+          "Value": "DatabaseConnection"
+        },
+        {
+          "Key": "messageformat",
+          "Value": "application/json"
+        }
+      ]
+    },
+		  {
+      "Key": "TransFerDataToInformation",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.TransformationProcess",
+      "Async": "false",
+      "IsEnable": "false",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "TransformJSONPayloadArray",
+          "Value": "yes"
+        },
+        {
+          "Key": "ManagedTemplateName",
+          "Value": "yes"
+        },
+        {
+          "Key": "FileName",
+          "Value": "templatefie.liquid"
+        },
+        {
+          "Key": "Container",
+          "Value": "config"
+        },
+        {
+          "Key": "StorageAccount",
+          "Value": "AzureWebJobsStorage"
+        }
+      ]
+    },
+    {
+      "Key": "ReplaceContentTypeInHeader",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.HeaderInfoProcess",
+      "Async": "false",
+      "IsEnable": "false",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "ReplaceHeaders",
+          "Value": "yes"
+        },
+        {
+          "Key": "Headers",
+          "Value": "[{\"Key\": \"Content-Type\",\"Value\": \"text/html\"}]"
+        }
+      ]
+    }
+
+  ]
+}

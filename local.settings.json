@@ -1,0 +1,20 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "ApiKeyName": "x-api-key",
+    "APPINSIGHTS_INSTRUMENTATIONKEY": "5be4dda3-3a47-4fd7-abe9-613c7ff4d51d",
+    "AppName": "functionapp20231121",
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=training20231115;AccountKey=Oq8xTs2RRMqlDZCA5lC8plvf8LcJHuCOyxOq1aeU99gcvLK6+pvvRygeg6piaajra+50IbkoMqFk+AStuY0bWw==;EndpointSuffix=core.windows.net",
+    "ConfigurationPath": "config",
+    "DatabaseConnection": "Server=tcp:training20231122.database.windows.net,1433;Initial Catalog=training20231122;Persist Security Info=False;User ID=sqladmin;Password=Password@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+    "FUNCTIONS_EXTENSION_VERSION": "~4",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "ServiceBusConnectionString": "Endpoint=sb://training20231115.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+XffPtutWgeR46y152sh0nbjRG+0YOh96+ASbNZOazE=",
+    "StorageAcctName": "AzureWebJobsStorage",
+    "TimerInterval": "0 */1 * * * *",
+    "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "DefaultEndpointsProtocol=https;AccountName=training20231115;AccountKey=Oq8xTs2RRMqlDZCA5lC8plvf8LcJHuCOyxOq1aeU99gcvLK6+pvvRygeg6piaajra+50IbkoMqFk+AStuY0bWw==;EndpointSuffix=core.windows.net",
+    "WEBSITE_CONTENTSHARE": "training202311228293b3",
+    "WEBSITE_RUN_FROM_PACKAGE": "1",
+    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED": "1"
+  }
+}

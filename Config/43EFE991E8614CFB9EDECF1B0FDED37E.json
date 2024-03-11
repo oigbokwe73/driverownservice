@@ -1,0 +1,92 @@
+﻿{
+  "Id": "BlobTriggerPayload",
+  "LineOfBusinessProcessData": [
+    {
+      "Key": "object",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.ProcessData"
+    }
+  ],
+  "Type": "",
+  "DataFlowProcess": [
+    {
+      "Key": "ReadStreamToText",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.MessageBuilderProcess",
+      "Async": "false",
+      "IsEnable": "true",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "ReadStreamToText",
+          "Value": "yes"
+        }
+      ]
+    },
+    {
+      "Key": "SendMesagesToService",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.ServiceBusProcess",
+      "Async": "false",
+      "IsEnable": "true",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "CallServiceBusTopicsWithContentTypeFlag",
+          "Value": "yes"
+        },
+        {
+          "Key": "TopicName",
+          "Value": "request"
+        },
+        {
+          "Key": "ServiceBusConnectionString",
+          "Value": "ServiceBusConnectionString"
+        },
+        {
+          "Key": "ContentType",
+          "Value": "text/csv"
+        }
+      ]
+    },
+    {
+      "Key": "CreatePayloadFromHeaders",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.HeaderInfoProcess",
+      "Async": "false",
+      "IsEnable": "true",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "CreatePayloadFromHeaders",
+          "Value": "yes"
+        },
+        {
+          "Key": "Headers",
+          "Value": "[{\"Key\": \"ContainerName\",\"Value\": \"ContainerName\"}]"
+        },
+        {
+          "Key": "PropertyName",
+          "Value": "ID"
+        }
+      ]
+    },
+    {
+      "Key": "RemoveFileFromStorage",
+      "Type": "Xenhey.BPM.Core.Net8.Processes.BlobStorageProcess",
+      "Async": "false",
+      "IsEnable": "true",
+      "DataFlowProcessParameters": [
+        {
+          "Key": "DeleteFromStorageWithExtInPayloadFileName",
+          "Value": "yes"
+        },
+        {
+          "Key": "StorageAccount",
+          "Value": "AzureWebJobsStorage"
+        },
+        {
+          "Key": "Container",
+          "Value": "processed"
+        },
+        {
+          "Key": "FileName",
+          "Value": "ContainerName"
+        }
+      ]
+    }
+  ]
+}
