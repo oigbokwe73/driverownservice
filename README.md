@@ -472,6 +472,788 @@ The Ride Matching Service connects riders with drivers, facilitating quick and e
 
 For more detailed information on request parameters, response objects, and error codes, please refer to the full API documentation.
 
----
+Below are sample JSON data snippets for each of the specified services in a ride-sharing application context. These examples illustrate how data might be structured when interacting with APIs or storing/transmitting data for each service.
 
-This Markdown template provides a basic structure for documenting a Ride Matching Service. You can expand each section with more details specific to your service, including authentication methods, detailed request/response models, and any additional endpoints or features not covered here.
+### User Service
+
+```json
+{
+  "userID": 12345,
+  "email": "john.doe@example.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "phoneNumber": "+1234567890",
+  "userType": "rider",
+  "createdAt": "2024-03-01T12:00:00Z"
+}
+```
+
+### Ride Matching Service
+
+```json
+{
+  "requestID": 54321,
+  "riderID": 12345,
+  "pickupLocation": "100 Main St, Metropolis",
+  "dropoffLocation": "200 Elm St, Metropolis",
+  "requestTime": "2024-03-01T12:05:00Z",
+  "status": "pending"
+}
+```
+
+### Pricing & Payments Service
+
+#### Pricing Rule
+
+```json
+{
+  "pricingRuleID": 1,
+  "ruleName": "Standard Rate",
+  "baseFare": 2.00,
+  "perMileRate": 1.50,
+  "perMinuteRate": 0.25,
+  "isActive": true
+}
+```
+
+#### Payment Transaction
+
+```json
+{
+  "transactionID": 67890,
+  "rideFareID": 54321,
+  "paymentMethod": "credit_card",
+  "amount": 15.75,
+  "transactionStatus": "completed",
+  "transactionDate": "2024-03-01T12:35:00Z"
+}
+```
+
+### Notifications Service
+
+```json
+{
+  "notificationID": 111,
+  "userID": 12345,
+  "templateID": 1,
+  "notificationType": "SMS",
+  "notificationStatus": "sent",
+  "sentAt": "2024-03-01T12:10:00Z",
+  "message": "Your ride request has been received and is being processed."
+}
+```
+
+### Trip Management Service
+
+```json
+{
+  "tripID": 54321,
+  "riderID": 12345,
+  "driverID": 67890,
+  "pickupLocation": "100 Main St, Metropolis",
+  "dropoffLocation": "200 Elm St, Metropolis",
+  "requestTime": "2024-03-01T12:05:00Z",
+  "startTime": "2024-03-01T12:10:00Z",
+  "endTime": "2024-03-01T12:30:00Z",
+  "status": "completed",
+  "fare": 15.75
+}
+```
+
+### Ratings & Reviews Service
+
+```json
+{
+  "ratingID": 222,
+  "tripID": 54321,
+  "ratedByUserID": 12345,
+  "ratedUserID": 67890,
+  "rating": 5,
+  "review": "Great experience, very polite driver and clean car.",
+  "ratingDate": "2024-03-01T12:40:00Z"
+}
+```
+
+These JSON snippets provide a basic structure for data representation in each service of a ride-sharing application. They can be adapted or extended based on specific application requirements, including adding more fields, adjusting data types, or incorporating additional entities related to each service.
+
+To illustrate a detailed sample JSON data flow for a "User Service" in a ride-sharing application, let's consider several key operations: user registration, user login, profile update, and fetching user details. This example will demonstrate how data might be structured when sent to and from the service via API calls.
+
+### 1. User Registration
+
+#### Request
+
+```json
+POST /api/users/register
+{
+  "email": "jane.doe@example.com",
+  "password": "securePassword123!",
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "phoneNumber": "+12345678901"
+}
+```
+
+#### Response
+
+```json
+{
+  "userID": 12346,
+  "email": "jane.doe@example.com",
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "phoneNumber": "+12345678901",
+  "userType": "rider",
+  "createdAt": "2024-03-02T09:30:00Z",
+  "message": "User registration successful."
+}
+```
+
+### 2. User Login
+
+#### Request
+
+```json
+POST /api/users/login
+{
+  "email": "jane.doe@example.com",
+  "password": "securePassword123!"
+}
+```
+
+#### Response
+
+```json
+{
+  "userID": 12346,
+  "email": "jane.doe@example.com",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expiresIn": "2024-03-02T19:30:00Z",
+  "message": "Login successful."
+}
+```
+
+### 3. Profile Update
+
+#### Request
+
+```json
+PUT /api/users/12346/profile
+{
+  "firstName": "Jane",
+  "lastName": "Doe Updated",
+  "phoneNumber": "+12345678901",
+  "userType": "driver", // Changing role from rider to driver
+  "licenseNumber": "D1234567890"
+}
+```
+
+*Note: This operation typically requires authentication, indicated by a Bearer token in the request header (not shown).*
+
+#### Response
+
+```json
+{
+  "userID": 12346,
+  "email": "jane.doe@example.com",
+  "firstName": "Jane",
+  "lastName": "Doe Updated",
+  "phoneNumber": "+12345678901",
+  "userType": "driver",
+  "licenseNumber": "D1234567890",
+  "message": "Profile updated successfully."
+}
+```
+
+### 4. Fetching User Details
+
+#### Request
+
+```json
+GET /api/users/12346
+```
+
+*Note: This operation typically requires authentication, indicated by a Bearer token in the request header (not shown).*
+
+#### Response
+
+```json
+{
+  "userID": 12346,
+  "email": "jane.doe@example.com",
+  "firstName": "Jane",
+  "lastName": "Doe Updated",
+  "phoneNumber": "+12345678901",
+  "userType": "driver",
+  "licenseNumber": "D1234567890",
+  "createdAt": "2024-03-02T09:30:00Z",
+  "updatedAt": "2024-03-02T10:00:00Z"
+}
+```
+
+This detailed JSON data flow showcases the typical interactions with a User Service in a ride-sharing application, covering registration, login, profile updates, and fetching user details. Each step involves sending specific JSON structured data to the service and receiving a response, also in JSON format, that confirms the action taken or returns the requested data.
+
+Below is a markdown document template for a User Service API in a ride-sharing application. This document outlines the API endpoints for user registration, login, profile updates, and retrieving user details. You can customize this template according to your specific application requirements.
+
+# User Service API Documentation
+
+## Overview
+
+The User Service API manages user registration, authentication, profile updates, and retrieval of user information. It is designed to ensure secure access and modification of user data.
+
+## Base URL
+
+```
+https://api.example.com
+```
+
+## Endpoints
+
+### Register a New User
+
+- **POST** `/api/users/register`
+
+  Allows new users to register on the platform.
+
+  #### Request Body
+
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "YourSecurePassword",
+    "firstName": "John",
+    "lastName": "Doe",
+    "phoneNumber": "+1234567890"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "userID": 1,
+    "message": "User registration successful."
+  }
+  ```
+
+### User Login
+
+- **POST** `/api/users/login`
+
+  Authenticates a user and returns a token for accessing protected routes.
+
+  #### Request Body
+
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "YourSecurePassword"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "expiresIn": "24h",
+    "message": "Login successful."
+  }
+  ```
+
+### Update User Profile
+
+- **PUT** `/api/users/{userID}/profile`
+
+  Updates the profile information of an existing user. Requires authentication.
+
+  #### Request Headers
+
+  ```
+  Authorization: Bearer <YourAccessToken>
+  ```
+
+  #### Request Body
+
+  ```json
+  {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "phoneNumber": "+1234567890"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "message": "Profile updated successfully."
+  }
+  ```
+
+### Get User Details
+
+- **GET** `/api/users/{userID}`
+
+  Retrieves the details of an existing user. Requires authentication.
+
+  #### Request Headers
+
+  ```
+  Authorization: Bearer <YourAccessToken>
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "userID": 1,
+    "email": "user@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "phoneNumber": "+1234567890",
+    "userType": "rider"
+  }
+  ```
+
+Pricing & Payments Service API in a ride-sharing application. This document outlines the API endpoints for managing pricing rules, calculating ride fares, and processing payment transactions. Customize this template according to your specific application requirements.
+
+# Pricing & Payments Service API Documentation
+
+## Overview
+
+The Pricing & Payments Service API is responsible for managing pricing rules, calculating fares for rides, and handling payment transactions. It ensures accurate pricing and secure processing of payments.
+
+## Base URL
+
+```
+https://api.example.com
+```
+
+## Endpoints
+
+### Manage Pricing Rules
+
+#### Create Pricing Rule
+
+- **POST** `/api/pricing/rules`
+
+  Creates a new pricing rule.
+
+  #### Request Body
+
+  ```json
+  {
+    "ruleName": "Standard Rate",
+    "baseFare": 2.00,
+    "perMileRate": 1.50,
+    "perMinuteRate": 0.25
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "pricingRuleID": 1,
+    "message": "Pricing rule created successfully."
+  }
+  ```
+
+#### Update Pricing Rule
+
+- **PUT** `/api/pricing/rules/{pricingRuleID}`
+
+  Updates an existing pricing rule.
+
+  #### Request Body
+
+  ```json
+  {
+    "baseFare": 2.50,
+    "perMileRate": 1.75,
+    "perMinuteRate": 0.30
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "message": "Pricing rule updated successfully."
+  }
+  ```
+
+### Calculate Ride Fare
+
+- **POST** `/api/pricing/calculate`
+
+  Calculates the fare for a given ride based on the pricing rules.
+
+  #### Request Body
+
+  ```json
+  {
+    "pricingRuleID": 1,
+    "miles": 10,
+    "minutes": 15
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "calculatedFare": 25.75
+  }
+  ```
+
+### Process Payment Transaction
+
+#### Create Payment Transaction
+
+- **POST** `/api/payments/transactions`
+
+  Processes a payment transaction for a ride.
+
+  #### Request Body
+
+  ```json
+  {
+    "rideID": 123,
+    "amount": 25.75,
+    "paymentMethod": "credit_card"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "transactionID": 456,
+    "transactionStatus": "completed",
+    "message": "Payment processed successfully."
+  }
+  ```
+
+Below is a markdown document template for a Notifications Service API in a ride-sharing application. This document outlines the API endpoints for managing notification preferences, sending notifications, and querying notification logs. Customize this template according to your specific application requirements.
+
+# Notifications Service API Documentation
+
+## Overview
+
+The Notifications Service API facilitates the management of user notification preferences, the dispatch of various types of notifications (e.g., email, SMS, push notifications), and the retrieval of notification logs. It ensures users receive timely and relevant information about their ride-sharing activities.
+
+## Base URL
+
+```
+https://api.example.com
+```
+
+## Endpoints
+
+### Notification Preferences
+
+#### Update Notification Preferences
+
+- **PUT** `/api/notifications/preferences/{userID}`
+
+  Updates the notification preferences for a user.
+
+  #### Request Body
+
+  ```json
+  {
+    "receiveEmail": true,
+    "receiveSMS": false,
+    "receivePushNotification": true
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "message": "Notification preferences updated successfully."
+  }
+  ```
+
+### Send Notification
+
+#### Send a Notification
+
+- **POST** `/api/notifications/send`
+
+  Sends a notification to a user based on their preferences.
+
+  #### Request Body
+
+  ```json
+  {
+    "userID": 12345,
+    "notificationType": "email",
+    "subject": "Your ride is on the way!",
+    "message": "Your driver, John Doe, is arriving in a white Toyota Camry. License plate: XYZ123."
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "notificationID": 67890,
+    "status": "sent",
+    "message": "Notification sent successfully."
+  }
+  ```
+
+### Notification Logs
+
+#### Retrieve Notification Logs
+
+- **GET** `/api/notifications/logs/{userID}`
+
+  Retrieves a list of notifications sent to a user.
+
+  #### Response
+
+  ```json
+  [
+    {
+      "notificationID": 67890,
+      "notificationType": "email",
+      "status": "sent",
+      "sentAt": "2024-03-02T10:00:00Z",
+      "subject": "Your ride is on the way!"
+    },
+    {
+      "notificationID": 67891,
+      "notificationType": "push",
+      "status": "sent",
+      "sentAt": "2024-03-02T11:00:00Z",
+      "message": "Your ride has arrived."
+    }
+  ]
+  ```
+
+Below is a markdown document template for a Trip Management Service API in a ride-sharing application. This document outlines the API endpoints for creating trips, updating trip statuses, and retrieving trip details. Customize this template according to your specific application requirements.
+
+# Trip Management Service API Documentation
+
+## Overview
+
+The Trip Management Service API is responsible for handling the lifecycle of trips within the ride-sharing platform. It allows for the creation of trip requests, updating trip statuses, and querying trip details to ensure a smooth experience for both riders and drivers.
+
+## Base URL
+
+```
+https://api.example.com
+```
+
+## Endpoints
+
+### Create Trip
+
+- **POST** `/api/trips`
+
+  Initiates a new trip request by a rider.
+
+  #### Request Body
+
+  ```json
+  {
+    "riderID": 12345,
+    "pickupLocation": "123 Main St, Cityville",
+    "dropoffLocation": "456 Elm St, Cityville",
+    "pickupTime": "2024-03-02T15:00:00Z"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "tripID": 67890,
+    "status": "Requested",
+    "message": "Trip request created successfully."
+  }
+  ```
+
+### Update Trip Status
+
+- **PATCH** `/api/trips/{tripID}/status`
+
+  Updates the status of an existing trip.
+
+  #### Request Body
+
+  ```json
+  {
+    "status": "InProgress"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "tripID": 67890,
+    "status": "InProgress",
+    "message": "Trip status updated successfully."
+  }
+  ```
+
+### Get Trip Details
+
+- **GET** `/api/trips/{tripID}`
+
+  Retrieves the details of a specific trip.
+
+  #### Response
+
+  ```json
+  {
+    "tripID": 67890,
+    "riderID": 12345,
+    "driverID": 54321,
+    "pickupLocation": "123 Main St, Cityville",
+    "dropoffLocation": "456 Elm St, Cityville",
+    "pickupTime": "2024-03-02T15:00:00Z",
+    "startTime": "2024-03-02T15:05:00Z",
+    "endTime": "2024-03-02T15:30:00Z",
+    "status": "Completed",
+    "fare": 12.50
+  }
+  ```
+
+### Cancel Trip
+
+- **PATCH** `/api/trips/{tripID}/cancel`
+
+  Cancels an existing trip. This can be initiated by either the rider or the driver before the trip starts.
+
+  #### Request Body
+
+  ```json
+  {
+    "reason": "Changed plans"
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "tripID": 67890,
+    "status": "Cancelled",
+    "message": "Trip cancelled successfully."
+  }
+  ```
+Below is a markdown document template for a Ratings & Reviews Service API in a ride-sharing application. This document outlines the API endpoints for submitting ratings and reviews by riders and drivers, and for querying these ratings and reviews. Customize this template according to your specific application requirements.
+
+# Ratings & Reviews Service API Documentation
+
+## Overview
+
+The Ratings & Reviews Service API facilitates the submission and retrieval of ratings and reviews for trips within the ride-sharing platform. It aims to maintain high service quality and transparency by allowing riders and drivers to rate each other and provide feedback on their experiences.
+
+## Base URL
+
+```
+https://api.example.com
+```
+
+## Endpoints
+
+### Submit a Rating and Review
+
+- **POST** `/api/ratings`
+
+  Allows users (riders or drivers) to submit a rating and optional review for a completed trip.
+
+  #### Request Body
+
+  ```json
+  {
+    "tripID": 67890,
+    "ratedByUserID": 12345,
+    "ratedUserID": 54321,
+    "rating": 5,
+    "review": "Excellent service, very polite and clean car."
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "ratingID": 112233,
+    "message": "Rating and review submitted successfully."
+  }
+  ```
+
+### Get Ratings for a User
+
+- **GET** `/api/ratings/user/{userID}`
+
+  Retrieves all ratings and reviews for a specific user, either as a rider or a driver.
+
+  #### Response
+
+  ```json
+  [
+    {
+      "ratingID": 112233,
+      "tripID": 67890,
+      "ratedByUserID": 12345,
+      "rating": 5,
+      "review": "Excellent service, very polite and clean car.",
+      "createdAt": "2024-03-02T16:00:00Z"
+    },
+    {
+      "ratingID": 112234,
+      "tripID": 67891,
+      "ratedByUserID": 54321,
+      "rating": 4,
+      "review": "Great ride, but arrived a bit late.",
+      "createdAt": "2024-03-03T10:00:00Z"
+    }
+  ]
+  ```
+
+### Update a Rating and Review
+
+- **PUT** `/api/ratings/{ratingID}`
+
+  Allows users to update their previously submitted rating and review.
+
+  #### Request Body
+
+  ```json
+  {
+    "rating": 4,
+    "review": "After consideration, the service was good but not perfect due to slight delay."
+  }
+  ```
+
+  #### Response
+
+  ```json
+  {
+    "message": "Rating and review updated successfully."
+  }
+  ```
+
+### Delete a Rating and Review
+
+- **DELETE** `/api/ratings/{ratingID}`
+
+  Allows users to delete their previously submitted rating and review.
+
+  #### Response
+
+  ```json
+  {
+    "message": "Rating and review deleted successfully."
+  }
+  ```
+
