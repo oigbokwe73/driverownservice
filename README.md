@@ -575,3 +575,119 @@ Below are sample JSON data snippets for each of the specified services in a ride
 ```
 
 These JSON snippets provide a basic structure for data representation in each service of a ride-sharing application. They can be adapted or extended based on specific application requirements, including adding more fields, adjusting data types, or incorporating additional entities related to each service.
+
+To illustrate a detailed sample JSON data flow for a "User Service" in a ride-sharing application, let's consider several key operations: user registration, user login, profile update, and fetching user details. This example will demonstrate how data might be structured when sent to and from the service via API calls.
+
+### 1. User Registration
+
+#### Request
+
+```json
+POST /api/users/register
+{
+  "email": "jane.doe@example.com",
+  "password": "securePassword123!",
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "phoneNumber": "+12345678901"
+}
+```
+
+#### Response
+
+```json
+{
+  "userID": 12346,
+  "email": "jane.doe@example.com",
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "phoneNumber": "+12345678901",
+  "userType": "rider",
+  "createdAt": "2024-03-02T09:30:00Z",
+  "message": "User registration successful."
+}
+```
+
+### 2. User Login
+
+#### Request
+
+```json
+POST /api/users/login
+{
+  "email": "jane.doe@example.com",
+  "password": "securePassword123!"
+}
+```
+
+#### Response
+
+```json
+{
+  "userID": 12346,
+  "email": "jane.doe@example.com",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expiresIn": "2024-03-02T19:30:00Z",
+  "message": "Login successful."
+}
+```
+
+### 3. Profile Update
+
+#### Request
+
+```json
+PUT /api/users/12346/profile
+{
+  "firstName": "Jane",
+  "lastName": "Doe Updated",
+  "phoneNumber": "+12345678901",
+  "userType": "driver", // Changing role from rider to driver
+  "licenseNumber": "D1234567890"
+}
+```
+
+*Note: This operation typically requires authentication, indicated by a Bearer token in the request header (not shown).*
+
+#### Response
+
+```json
+{
+  "userID": 12346,
+  "email": "jane.doe@example.com",
+  "firstName": "Jane",
+  "lastName": "Doe Updated",
+  "phoneNumber": "+12345678901",
+  "userType": "driver",
+  "licenseNumber": "D1234567890",
+  "message": "Profile updated successfully."
+}
+```
+
+### 4. Fetching User Details
+
+#### Request
+
+```json
+GET /api/users/12346
+```
+
+*Note: This operation typically requires authentication, indicated by a Bearer token in the request header (not shown).*
+
+#### Response
+
+```json
+{
+  "userID": 12346,
+  "email": "jane.doe@example.com",
+  "firstName": "Jane",
+  "lastName": "Doe Updated",
+  "phoneNumber": "+12345678901",
+  "userType": "driver",
+  "licenseNumber": "D1234567890",
+  "createdAt": "2024-03-02T09:30:00Z",
+  "updatedAt": "2024-03-02T10:00:00Z"
+}
+```
+
+This detailed JSON data flow showcases the typical interactions with a User Service in a ride-sharing application, covering registration, login, profile updates, and fetching user details. Each step involves sending specific JSON structured data to the service and receiving a response, also in JSON format, that confirms the action taken or returns the requested data.
