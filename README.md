@@ -236,3 +236,118 @@ CREATE TABLE RideDetails (
 - **Scalability**: As your application grows, you may need to consider scalability solutions, such as database sharding, to distribute the load across multiple databases, especially for the `DriverStatus` and `RideRequests` tables, which could grow rapidly and be queried frequently.
 
 This schema provides a foundational structure for a Ride Matching Service, focusing on efficiently matching ride requests with available drivers and tracking the status of those rides. Depending on specific requirements and features of your application, you might need to extend or modify this schema.
+
+Creating a JSON schema for a Ride Matching Service involves defining the structure and data types for JSON documents that represent ride requests, driver statuses, and ride matches. This schema will help ensure that the JSON documents exchanged between clients (like mobile apps or web applications) and servers adhere to a specified format, facilitating reliable data exchange and validation.
+
+Below are examples of JSON schemas for the key components of a Ride Matching Service: ride requests, driver statuses, and ride matches. These schemas define the expected structure of the JSON data, including required fields and data types.
+
+### 1. Ride Request JSON Schema
+
+This schema defines the structure for a ride request made by a rider.
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ride Request",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "type": "integer"
+    },
+    "riderId": {
+      "type": "integer",
+      "description": "The unique identifier for the rider"
+    },
+    "pickupLocation": {
+      "type": "string",
+      "description": "The pickup location as a string or encoded location data"
+    },
+    "dropoffLocation": {
+      "type": "string",
+      "description": "The dropoff location as a string or encoded location data"
+    },
+    "requestTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The time when the ride request was made"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "matched", "cancelled", "completed"],
+      "description": "The current status of the ride request"
+    }
+  },
+  "required": ["riderId", "pickupLocation", "dropoffLocation", "status"]
+}
+```
+
+### 2. Driver Status JSON Schema
+
+This schema defines the structure for representing a driver's current status.
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Driver Status",
+  "type": "object",
+  "properties": {
+    "driverId": {
+      "type": "integer",
+      "description": "The unique identifier for the driver"
+    },
+    "currentLocation": {
+      "type": "string",
+      "description": "The current location of the driver as a string or encoded location data"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["available", "on_trip", "offline"],
+      "description": "The current status of the driver"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The last time the driver's status was updated"
+    }
+  },
+  "required": ["driverId", "currentLocation", "status"]
+}
+```
+
+### 3. Ride Match JSON Schema
+
+This schema defines the structure for a ride match, linking a ride request with a driver.
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ride Match",
+  "type": "object",
+  "properties": {
+    "matchId": {
+      "type": "integer"
+    },
+    "requestId": {
+      "type": "integer",
+      "description": "The unique identifier for the ride request"
+    },
+    "driverId": {
+      "type": "integer",
+      "description": "The unique identifier for the driver"
+    },
+    "matchTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The time when the ride was matched with a driver"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["accepted", "driver_en_route", "in_progress", "completed", "cancelled"],
+      "description": "The current status of the ride match"
+    }
+  },
+  "required": ["requestId", "driverId", "status"]
+}
+```
+
+These JSON schemas provide a structured way to validate the data being sent and received within a Ride Matching Service, ensuring that all necessary information is present and correctly formatted. This is crucial for the reliability and efficiency of the service, as it helps prevent errors and inconsistencies in data handling.
